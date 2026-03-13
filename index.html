@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>TRX Script Hub</title>
+
+<style>
+body{
+margin:0;
+background:black;
+color:#00ff88;
+font-family:monospace;
+text-align:center;
+overflow-x:hidden;
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+
+h1{
+margin-top:40px;
+font-size:40px;
+}
+
+textarea{
+width:80%;
+height:150px;
+background:#001a00;
+color:#00ff88;
+border:1px solid #00ff88;
+border-radius:10px;
+padding:10px;
+}
+
+button{
+margin:10px;
+padding:10px 20px;
+background:#00ff88;
+border:none;
+color:black;
+border-radius:8px;
+cursor:pointer;
+}
+
+#result{
+margin-top:20px;
+background:#001a00;
+padding:15px;
+border-radius:10px;
+width:80%;
+margin-left:auto;
+margin-right:auto;
+word-break:break-all;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<h1>TRX Script Generator</h1>
+
+<textarea id="inputText" placeholder="اكتب النص هنا"></textarea>
+
+<br>
+
+<button onclick="makeScript()">صنع السكربت</button>
+<button onclick="copyScript()">📋 نسخ السكربت</button>
+
+<div id="result"></div>
+
+<h2>تحميل سكربتات</h2>
+
+<p>TRX Fly Script</p>
+<button onclick="download('print("TRX Fly")')">تحميل</button>
+
+<p>TRX Speed Script</p>
+<button onclick="download('print("TRX Speed")')">تحميل</button>
+
+<script>
+
+function encode(str){
+return btoa(str);
+}
+
+function makeScript(){
+
+var text = document.getElementById("inputText").value;
+
+var encrypted = encode(text);
+
+var script = "loadstring(game:HttpGet('" + encrypted + "'))()";
+
+document.getElementById("result").innerText = script;
+
+}
+
+function copyScript(){
+
+var text = document.getElementById("result").innerText;
+
+navigator.clipboard.writeText(text);
+
+alert("تم نسخ السكربت");
+
+}
+
+function download(content){
+
+var a = document.createElement("a");
+
+a.href = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
+
+a.download = "trx-script.lua";
+
+a.click();
+
+}
+
+var canvas = document.getElementById("matrix");
+var ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+var letters = "0123456789";
+letters = letters.split("");
+
+var fontSize = 14;
+var columns = canvas.width/fontSize;
+
+var drops = [];
+
+for(var x = 0; x < columns; x++)
+drops[x] = 1;
+
+function draw(){
+
+ctx.fillStyle = "rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle = "#00ff88";
+ctx.font = fontSize + "px monospace";
+
+for(var i = 0; i < drops.length; i++){
+
+var text = letters[Math.floor(Math.random()letters.length)];
+
+ctx.fillText(text,ifontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize > canvas.height && Math.random() > 0.975)
+drops[i] = 0;
+
+drops[i]++;
+}
+
+}
+
+setInterval(draw,33);
+
+</script>
+
+</body>
+</html>
